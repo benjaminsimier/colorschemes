@@ -46,9 +46,10 @@ class ColrAPIService
     function isColorDark($colorCreated) {
         $color = $colorCreated['code'];
 
-        $red = hexdec(substr($color, 1, 2));
-        $green = hexdec(substr($color, 3, 2));
-        $blue = hexdec(substr($color, 5, 2));
+        $split = str_split($color, 2);
+        $red = hexdec($split[0]);
+        $green = hexdec($split[1]);
+        $blue = hexdec($split[2]);
         
         $max = max($red, $green, $blue);
         $min = min($red, $green, $blue);
@@ -61,9 +62,10 @@ class ColrAPIService
     function createImage($colorCreated = null, $dark = null) {
         $color = $colorCreated['code'];
 
-        $red = hexdec(substr($color, 1, 2));
-        $green = hexdec(substr($color, 3, 2));
-        $blue = hexdec(substr($color, 5, 2));
+        $split = str_split($color, 2);
+        $red = hexdec($split[0]);
+        $green = hexdec($split[1]);
+        $blue = hexdec($split[2]);
 
         $text = ucfirst($colorCreated['name']);
         $code = '#'.$colorCreated['code'];
