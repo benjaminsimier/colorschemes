@@ -2,30 +2,73 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ColorRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 
-#[ORM\Entity(repositoryClass: ColorRepository::class)]
+use App\Entity\Traits\Timestampable as TimestampableTrait;
+
+#[ORM\Entity]
+#[ApiResource(
+    collectionOperations: [
+        'get' => ['normalization_context' => ['groups' => 'color:collection']],
+        'post',
+    ],
+    itemOperations: [
+        'get' => ['normalization_context' => ['groups' => 'color:item']],
+        'put',
+        'delete',
+    ]
+)]
+#[ApiFilter(SearchFilter::class, properties: [
+    'id' => 'exact',
+    'name' => 'partial',
+    'code' => 'exact'
+])]
 #[ApiResource]
-class Color
+class Color implements TimestampableInterface
 {
+    use TimestampableTrait;
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups([
+        'color:collection', 
+        'color:item'
+    ])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups([
+        'color:collection', 
+        'color:item'
+    ])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups([
+        'color:collection', 
+        'color:item'
+    ])]
     private ?string $code = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups([
+        'color:collection', 
+        'color:item'
+    ])]
     private ?string $image = null;
 
     #[ORM\Column]
+    #[Groups([
+        'color:collection', 
+        'color:item'
+    ])]
     private ?bool $isDark = null;
 
     public function getId(): ?int

@@ -5,6 +5,9 @@ namespace App\Services;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
+use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
+
+use App\Entity\Traits\Timestampable as TimestampableTrait;
 
 use App\Entity\Color;
 
