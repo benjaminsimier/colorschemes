@@ -63,6 +63,7 @@ class ColrAPIService
         $blue = hexdec(substr($color, 5, 2));
 
         $text = ucfirst($colorCreated['name']);
+        $code = '#'.$colorCreated['code'];
         $credit_text = "Image by " . $this->params->get('name');
 
         $width = 1080;
@@ -83,9 +84,18 @@ class ColrAPIService
         $font_box = imagettfbbox($font_size, $font_angle, $font_file, $text);
         $font_width = $font_box[2] - $font_box[0];
         $font_x = ($width - $font_width) / 2;
-        $font_y = ($height - $font_size) / 2 + $font_size;
+        $font_y = ($height - $font_size) / 2 + $font_size - 40;
         $font_color = $text_color;
         imagettftext($image, $font_size, $font_angle, $font_x, $font_y, $font_color, $font_file, $text);
+
+        $code_font_file = 'fonts/Roboto-Regular.ttf';
+        $code_font_size = 30;
+        $code_font_color = $dark ? imagecolorallocate($image, 255, 255, 255) : imagecolorallocate($image, 0, 0, 0);
+        $code_box = imagettfbbox($code_font_size, $font_angle, $font_file, $code);
+        $code_width = $code_box[2] - $code_box[0];
+        $code_x = ($width - $code_width) / 2;
+        $code_y = ($height - $font_size) / 2 + $font_size + 40;
+        imagettftext($image, $code_font_size, $font_angle, $code_x, $code_y, $font_color, $code_font_file, $code);
 
         $credit_font_file = 'fonts/Roboto-Regular.ttf';
         $credit_font_size = 20;
