@@ -2,8 +2,10 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
-use App\Repository\ColorRepository;
+// use ApiPlatform\Metadata\ApiResource;
+// use ApiPlatform\Metadata\ApiResource;
+// use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Metadata\ApiResource;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -13,23 +15,12 @@ use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use App\Entity\Traits\Timestampable as TimestampableTrait;
 
 #[ORM\Entity]
-#[ApiResource(
-    collectionOperations: [
-        'get' => ['normalization_context' => ['groups' => 'color:collection']],
-        'post',
-    ],
-    itemOperations: [
-        'get' => ['normalization_context' => ['groups' => 'color:item']],
-        'put',
-        'delete',
-    ]
-)]
+#[ApiResource()]
 #[ApiFilter(SearchFilter::class, properties: [
     'id' => 'exact',
     'name' => 'partial',
     'code' => 'exact'
 ])]
-#[ApiResource]
 class Color implements TimestampableInterface
 {
     use TimestampableTrait;
